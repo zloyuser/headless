@@ -1,0 +1,2 @@
+CREATE USER strapi4 WITH PASSWORD 'strapi4';
+CREATE DATABASE strapi4 WITH OWNER 'strapi4';

@@ -1,0 +1,14 @@
+server {
+  server_name squidex.${DOMAIN};
+
+  include /etc/nginx/snippet.d/listen.conf;
+  include /etc/nginx/snippet.d/secure.conf;
+  include /etc/nginx/snippet.d/proxy.conf;
+
+  error_log  /var/log/nginx/squidex.errors.log;
+  access_log /var/log/nginx/squidex.access.log;
+
+  location / {
+    proxy_pass http://squidex:5000;
+  }
+}

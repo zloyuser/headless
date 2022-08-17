@@ -1,0 +1,73 @@
+version: "3.7"
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    environment:
+      - DOMAIN=phpdot.me
+      - ENVIRONMENT=dev
+      - NGINX_ENVSUBST_TEMPLATE_SUFFIX=.tmpl
+    networks:
+      - internal
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./etc/nginx/snippet.d:/etc/nginx/snippet.d:ro
+      - ./etc/nginx/templates.d:/etc/nginx/templates:ro
+      - ./etc/letsencrypt:/etc/letsencrypt:ro
+    restart: unless-stopped
+  postgres:
+    image: postgres:14.3-alpine
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    networks:
+      - internal
+    volumes:
+      - ./etc/pgsql/init.d:/docker-entrypoint-initdb.d
+      - postgres:/var/lib/postgresql/data
+    restart: unless-stopped
+  mongo:
+    image: mongo:5.0.6
+    container_name: mongo
+    volumes:
+      - mongo:/data/db
+    networks:
+      - internal
+    restart: unless-stopped
+  strapi3:
+    image: strapi/strapi:3-alpine
+    container_name: strapi3
+    env_file:
+      - ./env/strapi3.env
+    networks:
+      - internal
+    depends_on:
+      - postgres
+  strapi4:
+    image: strapi/strapi:4.3.4-alpine
+    container_name: strapi4
+    env_file:
+      - ./env/strapi4.env
+    networks:
+      - internal
+    depends_on:
+      - postgres
+  squidex:
+    image: squidex/squidex:7.0.3
+    container_name: squidex
+    env_file:
+      - ./env/squidex.env
+    networks:
+      - internal
+    depends_on:
+      - mongo
+
+networks:
+  internal:
+
+volumes:
+  postgres: ~
+  mongo: ~

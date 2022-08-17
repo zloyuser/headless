@@ -1,0 +1,14 @@
+server {
+  server_name strapi3.${DOMAIN};
+
+  include /etc/nginx/snippet.d/listen.conf;
+  include /etc/nginx/snippet.d/secure.conf;
+  include /etc/nginx/snippet.d/proxy.conf;
+
+  error_log  /var/log/nginx/strapi3.errors.log;
+  access_log /var/log/nginx/strapi3.access.log;
+
+  location / {
+    proxy_pass http://strapi3:1337;
+  }
+}
