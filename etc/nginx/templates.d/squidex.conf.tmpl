@@ -9,6 +9,8 @@ server {
   access_log /var/log/nginx/squidex.access.log;
 
   location / {
+  	include /etc/nginx/snippet.d/ws.conf;
+
     proxy_pass http://squidex:5000;
   }
 }

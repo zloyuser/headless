@@ -1,16 +1,16 @@
 server {
-  server_name strapi4.${DOMAIN};
+  server_name nocodb.${DOMAIN};
 
   include /etc/nginx/snippet.d/listen.conf;
   include /etc/nginx/snippet.d/secure.conf;
   include /etc/nginx/snippet.d/proxy.conf;
 
-  error_log  /var/log/nginx/strapi4.errors.log;
-  access_log /var/log/nginx/strapi4.access.log;
+  error_log  /var/log/nginx/nocodb.errors.log;
+  access_log /var/log/nginx/nocodb.access.log;
 
   location / {
   	include /etc/nginx/snippet.d/ws.conf;
 
-    proxy_pass http://strapi4:1337;
+    proxy_pass http://nocodb:5000;
   }
 }

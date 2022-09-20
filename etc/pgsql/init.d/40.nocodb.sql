@@ -1,0 +1,2 @@
+CREATE USER nocodb WITH PASSWORD 'nocodb';
+CREATE DATABASE nocodb WITH OWNER 'nocodb';

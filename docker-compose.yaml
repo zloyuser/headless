@@ -64,6 +64,51 @@ services:
       - internal
     depends_on:
       - mongo
+  directus:
+    image: directus/directus:latest
+    container_name: directus
+    env_file:
+      - ./env/directus.env
+    networks:
+      - internal
+    depends_on:
+      - postgres
+    restart: unless-stopped
+  nocodb:
+    image: nocodb/nocodb:latest
+    container_name: nocodb
+    env_file:
+      - ./env/nocodb.env
+    networks:
+      - internal
+    depends_on:
+      - postgres
+    volumes:
+      - nocodb:/usr/app/data
+    restart: unless-stopped
+  baserow:
+    image: baserow/baserow:1.12.0
+    container_name: baserow
+    env_file:
+      - ./env/baserow.env
+    networks:
+      - internal
+    depends_on:
+      - postgres
+    volumes:
+      - baserow:/baserow/data
+    restart: unless-stopped
+  tooljet:
+    image: tooljet/tooljet-ce:latest
+    container_name: tooljet
+    env_file:
+      - ./env/tooljet.env
+    networks:
+      - internal
+    depends_on:
+      - postgres
+    command: npm run start:prod
+    restart: unless-stopped
 
 networks:
   internal:
@@ -71,3 +116,5 @@ networks:
 volumes:
   postgres: ~
   mongo: ~
+  nocodb: ~
+  baserow: ~

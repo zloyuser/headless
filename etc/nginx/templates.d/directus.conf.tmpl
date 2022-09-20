@@ -1,16 +1,16 @@
 server {
-  server_name strapi4.${DOMAIN};
+  server_name directus.${DOMAIN};
 
   include /etc/nginx/snippet.d/listen.conf;
   include /etc/nginx/snippet.d/secure.conf;
   include /etc/nginx/snippet.d/proxy.conf;
 
-  error_log  /var/log/nginx/strapi4.errors.log;
-  access_log /var/log/nginx/strapi4.access.log;
+  error_log  /var/log/nginx/directus.errors.log;
+  access_log /var/log/nginx/directus.access.log;
 
   location / {
   	include /etc/nginx/snippet.d/ws.conf;
 
-    proxy_pass http://strapi4:1337;
+    proxy_pass http://directus:5000;
   }
 }
